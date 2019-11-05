@@ -5,14 +5,26 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float speed;
-    public float rotateSpeed;
+    public float mouseSensitivity;
+
+    float rotateAngleX;
+    float rotateAngleY;
+
+    void Start() {
+        rotateAngleX = 0.0f;
+        rotateAngleY = 0.0f;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 
     void Update() {
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Jump"), Input.GetAxisRaw("Vertical"));
-        Vector3 velocity = input.normalized * speed * Time.fixedDeltaTime;
-        float rotateAngle = Input.GetAxisRaw("Rotate") * rotateSpeed * Time.fixedDeltaTime;
+        Vector3 velocity = input.normalized * speed * Time.deltaTime;
+        rotateAngleX += Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        rotateAngleY -= Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         transform.Translate(velocity, Space.Self);
-        transform.Rotate(Vector3.up, rotateAngle);
+        transform.eulerAngles = new Vector3(rotateAngleY, rotateAngleX);
     }
 }
