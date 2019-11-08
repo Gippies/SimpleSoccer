@@ -1,37 +1,34 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    int westScore;
-    int eastScore;
+    Dictionary<Goal, int> scores;
     // Start is called before the first frame update
     void Start()
     {
-        westScore = 0;
-        eastScore = 0;
+        scores = new Dictionary<Goal, int>();
+
+        Goal[] goals = (Goal[]) Enum.GetValues(typeof(Goal));
+        foreach (Goal g in goals) {
+            scores[g] = 0;
+        }
     }
 
     public void addScore(Goal g) {
-        if (g == Goal.West)
-            westScore++;
-        else if (g == Goal.East)
-            eastScore++;
+        scores[g]++;
     }
 
     public int getScore(Goal g) {
-        if (g == Goal.West)
-            return westScore;
-        else if (g == Goal.East)
-            return eastScore;
-        else
-            return -1;
+        return scores[g];
     }
 
     public void resetScore() {
-        westScore = 0;
-        eastScore = 0;
+        foreach (Goal key in scores.Keys) {
+            scores[key] = 0;
+        }
     }
 }
 
