@@ -1,26 +1,32 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
+    public Text westScoreBoard;
+    public Text eastScoreBoard;
+
     Dictionary<Goal, int> scores;
+    Dictionary<Goal, Text> scoreBoards;
     // Start is called before the first frame update
     void Start()
     {
-        scores = new Dictionary<Goal, int>();
+        scores = new Dictionary<Goal, int> {
+            {Goal.West, 0},
+            {Goal.East, 0}
+        };
+        scoreBoards = new Dictionary<Goal, Text> {
+            {Goal.West, westScoreBoard},
+            {Goal.East, eastScoreBoard}
+        };
 
         FindObjectOfType<BallBehavior>().OnEnterGoal += addScore;
-
-        Goal[] goals = (Goal[]) Enum.GetValues(typeof(Goal));
-        foreach (Goal g in goals) {
-            scores[g] = 0;
-        }
     }
 
     public void addScore(Goal g) {
         scores[g]++;
+        scoreBoards[g].text = scores[g].ToString();
     }
 
     public int getScore(Goal g) {
