@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BallBehavior : MonoBehaviour
 {
     public Vector3 startPosition;
-    public ScoreManager scoreManager;
+    public delegate void Action(Goal g);
+    public event Action OnEnterGoal;
 
     Rigidbody thisRigidbody;
 
@@ -15,9 +17,16 @@ public class BallBehavior : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         if (other.transform.parent.name == "Goal West") {
-            scoreManager.addScore(Goal.West);
+            if (OnEnterGoal != null) {
+                OnEnterGoal(Goal.West);
+            }
             ResetBall();
-            print("Collided object: " + other.transform.parent.name + " score: " + scoreManager.getScore(Goal.West));
+        }
+        else if (other.transform.parent.name == "Goal East") {
+            if (OnEnterGoal != null) {
+                OnEnterGoal(Goal.East);
+            }
+            ResetBall();
         }
     }
 

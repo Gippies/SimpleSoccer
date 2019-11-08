@@ -11,6 +11,8 @@ public class ScoreManager : MonoBehaviour
     {
         scores = new Dictionary<Goal, int>();
 
+        FindObjectOfType<BallBehavior>().OnEnterGoal += addScore;
+
         Goal[] goals = (Goal[]) Enum.GetValues(typeof(Goal));
         foreach (Goal g in goals) {
             scores[g] = 0;
