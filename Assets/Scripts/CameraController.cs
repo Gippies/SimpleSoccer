@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(cameraRay, out hit)) {
                 // the object identified by hit.transform was clicked
-                if (hit.transform.gameObject.name == "Soccer Ball" && Vector3.Distance(transform.position, hit.transform.position) < 3.0f) {
+                if (hit.transform.gameObject.name == "SoccerBall" && Vector3.Distance(transform.position, hit.transform.position) < 3.0f) {
                     hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(cameraRay.direction * kickMultiplier + Vector3.up * kickHeightMultiplier);
                 }
             }
